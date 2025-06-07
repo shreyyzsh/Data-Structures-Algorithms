@@ -17,51 +17,43 @@ struct ListNode {
 class Solution {
     public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        string output = "";
         int carry = 0;
+        string output = "";
 
-        while (l1 != nullptr || l2 != nullptr) {
-            int v1, v2;
+        while (l1 || l2) {
+            int val_1 = 0, val_2 = 0;
 
             if (l1) {
-                v1 = l1->val;
+                val_1 = l1->val;
                 l1 = l1->next;
-            }
-            else v1 = 0;
-            if (l2) {
-                v2 = l2->val;
+            } if (l2) {
+                val_2 = l2->val;
                 l2 = l2->next;
             }
-            else v2 = 0;
 
-            string s = to_string((v1 + v2 + carry));
-
-            if (stoi(s) >= 10) {
+            string digit_sum = to_string(carry + val_1 + val_2);
+            if (stoi(digit_sum) >= 10) {
                 carry = 1;
-                output = s[1] + output;
+                output += digit_sum[1];
             } else {
-                output = s + output;
                 carry = 0;
+                output += digit_sum;
             }
-
-            l2 = l2->next;
-            l1 = l1->next;
         }
+        
+        if (carry == 1) output += to_string(carry);
 
-        if (carry == 1) output = "1" + output;
-        // output = 103 but linked list l3 should be 3->0->1
-
-        int headVal = output.back() - '0';
-        ListNode* sum = new ListNode(headVal);
-
-        ListNode* mover = sum;
-        for (int i = output.length()-2; i > -1; i--) {
-            ListNode* temp = new ListNode((output[i] - '0'));
+        ListNode* HEAD = new ListNode(output[0]);
+        ListNode* mover = HEAD;
+        for (int i = 0; i < output.length(); i++) {
+            ListNode* temp = new ListNode(output[i]);
             mover->next = temp;
+
+            // move to the new node
             mover = mover->next;
         }
 
-        return sum;
+        return HEAD;
     }
 };
 
