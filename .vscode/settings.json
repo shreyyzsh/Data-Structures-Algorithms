@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.md": "markdown",
+        "*.toml": "toml",
+        "iostream": "cpp"
+    }
+}
